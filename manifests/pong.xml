@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <remote name="pong-public" fetch="https://github.com/" />
+  <project name="LineageOS/android_device_nothing_Pong" path="device/nothing/Pong" remote="pong-public" revision="4c8a91e95540b0d075a66f18b4fb61092d99d510" upstream="refs/heads/lineage-23.2" />
+  <project name="LineageOS/android_kernel_nothing_sm8475" path="kernel/nothing/sm8475" remote="pong-public" revision="4ec5491f6b5fd8776207a2a453d6b98b1928de7a" upstream="refs/heads/lineage-23.2" />
+  <project name="LineageOS/android_kernel_nothing_sm8475-devicetrees" path="kernel/nothing/sm8475-devicetrees" remote="pong-public" revision="4b06eb8d7c0bbc548a5f3336ac201e4fb29ccaf8" upstream="refs/heads/lineage-23.2" />
+  <project name="LineageOS/android_kernel_nothing_sm8475-modules" path="kernel/nothing/sm8475-modules" remote="pong-public" revision="8bb924988b7a96ff5791a5c455588b22c211b58d" upstream="refs/heads/lineage-23.2" />
+  <project name="TheMuppets/proprietary_vendor_nothing_Pong" path="vendor/nothing/Pong" remote="pong-public" revision="1dc6e7ff9f25c8e7028132e20536bc9e6de3d56d" upstream="refs/heads/lineage-23.2" />
+</manifest>

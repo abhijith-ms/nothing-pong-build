@@ -14,7 +14,7 @@ if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*/[A-Za-z0-9][A-Za-z0-9_.-]*', ar
     parser.error('A repository slug and full commit SHA are required; branches and URLs are refused.')
 folder = Path(__file__).resolve().parent
 recipe = (folder / 'prepare-pong.sh').read_bytes()
-if hashlib.sha256(recipe).hexdigest() != '4b3ced4980d0bc393c5c45161f5653cac0097103d72211caaa8d944dd48b8e01':
+if hashlib.sha256(recipe).hexdigest() != 'fbd740a923b706d51d348c087f997ead421313bfe75cf5bdbbcc6ff20dd9ba96':
     parser.error('Preparation recipe differs from the reviewed snapshot.')
 launcher = base64.b64encode((folder / 'launch-preparation.sh').read_bytes()).decode()
 worker = ("set -e -o pipefail; pong_launcher=$(printf '%s' " + shlex.quote(launcher) +

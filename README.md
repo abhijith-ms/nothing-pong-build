@@ -1,15 +1,16 @@
 # Pong preparation recipe
 
-Repository: `abhijith-ms/nothing-pong-build`. This tooling was reviewed and tested
-locally using disposable fixtures and fake clients. Publication does not establish
-successful Crave execution, a ROM release or a cancellation fix. Command delivery
-remains an untested hypothesis for the previous cancellations. Use an actual
-published commit SHA when rendering a future worker invocation.
+Repository: `abhijith-ms/nothing-pong-build`. This correction was tested locally
+using disposable fixtures and Git LFS3.6.0. Job308157 confirmed the pinned launcher
+download and execution, then failed during WebView preparation. This correction
+has not run on Crave; no ROM release or banking compatibility is established.
+Previous cancellations remain unexplained. Use an actual published commit SHA
+when rendering a future worker invocation.
 
 Only this directory is intended for a future public repository. Do not upload the
 parent workspace, private backups, logs, credentials, phone data or signing keys.
 The recipe contains public source revisions and preservation fingerprints, not
-the preserved files. Review the six-file publication list before publishing:
+the preserved files. Review the publication list before publishing:
 
 - `README.md`
 - `manifests/pong.xml`
@@ -17,6 +18,7 @@ the preserved files. Review the six-file publication list before publishing:
 - `scripts/launch-preparation.sh`
 - `scripts/render-command.py`
 - `tests/check_launcher.py`
+- `tests/check_materialization.py`
 
 ## What can run
 
@@ -28,10 +30,16 @@ initializes the pinned manifest/overlay, verifies preservation/ownership and
 replaces only six reviewed Git mappings, then checks them and stops. It can
 replace those six backed-up working trees and per-project Git metadata.
 
-`prepare-pong.sh` is byte-identical to the reviewed preparation-only recipe:
-21,280 bytes, SHA-256
-`4b3ced4980d0bc393c5c45161f5653cac0097103d72211caaa8d944dd48b8e01`.
-Its guards and machine-specific preservation requirements are unchanged.
+`prepare-pong.sh` corrects the preparation recipe used by failed job308157.
+Git LFS filters are supplied only for each command while global/system Git
+configuration stays isolated. Checkout diagnostics are retained (first4096 bytes
+per stream), and an absent output fails explicitly before content verification.
+The recipe is now:
+21,968 bytes, SHA-256
+`fbd740a923b706d51d348c087f997ead421313bfe75cf5bdbbcc6ff20dd9ba96`.
+Its source guards and machine-specific preservation requirements are unchanged.
+The original failed recipe remains available at commit
+`073f5e77ab505d447973bba7e7ff6f27613cb614`.
 `manifests/pong.xml` is an exact copy of its embedded public overlay.
 The canonical full-build script and its later post-sync guard are outside this
 package and remain unchanged. No full-tree sync, compilation, banking workaround,
@@ -64,6 +72,13 @@ contain local paths or diagnostics; keep logs private until reviewed/redacted.
 Run `python3 tests/check_launcher.py` from this directory. It uses disposable
 fixtures and fake curl/Crave clients; it never contacts either service or executes
 the actual preparation recipe.
+
+Run `python3 tests/check_materialization.py /path/to/git-lfs` with a verified
+Git LFS3.6.0 executable. This test creates only disposable local repositories,
+reproduces the exit-zero checkout skip with hidden global filters, then verifies
+restoration with invocation-scoped filters and refusal/preservation cases. It
+needs no network, system installation or Crave access. Real LFS may refresh index
+stat data; staged modes and blob IDs must remain unchanged.
 
 After a reviewed public commit exists, render an invocation locally:
 

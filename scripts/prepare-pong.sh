@@ -69,8 +69,17 @@ def git(*args, cwd=worktree):
     result = subprocess.run(
         ['git', '--no-optional-locks', '-c', 'core.fsmonitor=false',
          '-c', 'core.hooksPath=/dev/null', '-c', 'protocol.allow=never',
+         '-c', 'filter.lfs.clean=git-lfs clean -- %f',
+         '-c', 'filter.lfs.smudge=git-lfs smudge -- %f',
+         '-c', 'filter.lfs.process=git-lfs filter-process', '-c', 'filter.lfs.required=true',
          '-c', 'lfs.storage=' + str(gitdir / 'lfs'), '-C', str(cwd), *args],
         env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=120)
+    # LFS can report a skipped checkout with exit zero; retain its diagnostics.
+    if args[0] == 'lfs':
+        for label, output in (('stdout', result.stdout), ('stderr', result.stderr)):
+            if output:
+                print('Git LFS %s (first 4096 bytes): %s' %
+                      (label, output[:4096].decode('utf-8', errors='replace')), flush=True)
     require(result.returncode == 0, 'WebView Git/LFS command failed (exit %s); inspect worker evidence before retry.' % result.returncode)
     return result.stdout
 
@@ -120,6 +129,7 @@ else:
     print(version, flush=True)
     # checkout uses the existing local store; it does not download or overwrite modified files.
     git('lfs', 'checkout', 'webview.apk')
+    require(os.path.lexists(apk), 'Git LFS checkout left WebView APK absent; inspect the retained LFS diagnostics.')
     verified(apk)
     print('Missing WebView APK materialized and size/SHA-256 verified.')
 identities()

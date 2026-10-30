@@ -11,10 +11,10 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-SHA = '4b3ced4980d0bc393c5c45161f5653cac0097103d72211caaa8d944dd48b8e01'
+SHA = 'fbd740a923b706d51d348c087f997ead421313bfe75cf5bdbbcc6ff20dd9ba96'
 recipe = (ROOT / 'scripts/prepare-pong.sh').read_bytes()
 launcher = (ROOT / 'scripts/launch-preparation.sh').read_text()
-assert len(recipe) == 21280 and hashlib.sha256(recipe).hexdigest() == SHA
+assert len(recipe) == 21968 and hashlib.sha256(recipe).hexdigest() == SHA
 xml = re.search(rb"pong_manifest=\$\(cat <<'PONG_MANIFEST'\n(.*?)\nPONG_MANIFEST\n\)", recipe, re.S)[1] + b'\n'
 assert (ROOT / 'manifests/pong.xml').read_bytes() == xml
 subprocess.run(['bash', '-n'], input=launcher, text=True, check=True)
@@ -46,7 +46,7 @@ pathlib.Path(args[args.index('-o')+1]).write_bytes(b'x'*len(data) if os.environ.
         work = folder / case
         (work / '.repo').mkdir(parents=True)
         (work / '.repo/manifest.xml').write_text('<manifest/>\n')
-        code = launcher.replace('/tmp/src/android', str(work)).replace(SHA, fixture_sha).replace('PONG_PREP_BYTES=21280', 'PONG_PREP_BYTES=' + str(len(payload)))
+        code = launcher.replace('/tmp/src/android', str(work)).replace(SHA, fixture_sha).replace('PONG_PREP_BYTES=21968', 'PONG_PREP_BYTES=' + str(len(payload)))
         fetch_args = work / 'fetch-args'
         env = dict(os.environ, PATH=str(binary) + os.pathsep + os.environ['PATH'], PAYLOAD=str(payload_path), FETCH_ARGS=str(fetch_args))
         args = ['example/pong', commit]
@@ -125,7 +125,7 @@ else:
     work = folder / 'rendered-worker'
     (work / '.repo').mkdir(parents=True)
     (work / '.repo/manifest.xml').write_text('<manifest/>\n')
-    code = launcher.replace('/tmp/src/android', str(work)).replace(SHA, fixture_sha).replace('PONG_PREP_BYTES=21280', 'PONG_PREP_BYTES=' + str(len(payload)))
+    code = launcher.replace('/tmp/src/android', str(work)).replace(SHA, fixture_sha).replace('PONG_PREP_BYTES=21968', 'PONG_PREP_BYTES=' + str(len(payload)))
     fixture_worker = worker.replace(encoded, base64.b64encode(code.encode()).decode())
     fixture_env = dict(env, PAYLOAD=str(payload_path), FETCH_ARGS=str(work / 'fetch-args'))
     result = subprocess.run(['bash', '-c', fixture_worker], cwd=work, env=fixture_env, capture_output=True, text=True)

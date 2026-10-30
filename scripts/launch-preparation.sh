@@ -5,8 +5,8 @@ fail() { printf '%s\n' "$*" >&2; exit 1; }
 [[ $# -eq 2 && $1 =~ ^[A-Za-z0-9][A-Za-z0-9_.-]*/[A-Za-z0-9][A-Za-z0-9_.-]*$ && $2 =~ ^[0-9a-f]{40}$ ]] ||
     fail 'Usage: launch-preparation.sh OWNER/REPOSITORY FULL_COMMIT_SHA'
 [[ "$(pwd -P)" == /tmp/src/android && -f .repo/manifest.xml ]] || fail 'Existing queued worker checkout required.'
-readonly PONG_PREP_SHA=4b3ced4980d0bc393c5c45161f5653cac0097103d72211caaa8d944dd48b8e01
-readonly PONG_PREP_BYTES=21280
+readonly PONG_PREP_SHA=fbd740a923b706d51d348c087f997ead421313bfe75cf5bdbbcc6ff20dd9ba96
+readonly PONG_PREP_BYTES=21968
 umask 077
 for path in out out/pong-launch-evidence; do
     [[ ! -L $path && ( ! -e $path || -d $path ) ]] || fail 'Unexpected evidence parent; preserve and review.'
